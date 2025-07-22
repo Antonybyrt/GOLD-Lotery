@@ -1,66 +1,123 @@
-## Foundry
+# Sgold Protocol
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Overview
 
-Foundry consists of:
+**Sgold** is an ERC20-based protocol that allows users to mint a gold-pegged stablecoin (Sgold) by depositing Ether. The protocol features an integrated lottery system, where a portion of each deposit funds a prize pool. When a set number of participants is reached, a random winner is selected using Chainlink VRF, and the entire prize pool is awarded in Ether.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+---
 
-## Documentation
+## Features
 
-https://book.getfoundry.sh/
+- **Gold-Pegged Stablecoin:**  
+  Mint Sgold tokens by depositing Ether, with the value calculated using Chainlink Price Feeds for real-time gold pricing in USD.
 
-## Usage
+- **Minting Mechanism:**  
+  - Users receive 70% of their deposit value in Sgold (based on the current gold price in USD).
+  - 10% of each deposit is allocated to a lottery prize pool.
 
-### Build
+- **Integrated Lottery:**  
+  - When the participant threshold (e.g., 10 users) is reached, the admin can trigger a lottery draw.
+  - The winner is selected randomly via Chainlink VRF and receives the entire prize pool in Ether.
 
-```shell
-$ forge build
+- **Redemption:**  
+  Users can burn their Sgold tokens to reclaim their Ether collateral.
+
+---
+
+## Architecture
+
+- **Smart Contract:**  
+  Handles minting, redemption, lottery pool management, and winner selection.
+
+- **Chainlink Integration:**  
+  - **Price Feed:** Fetches the latest gold price in USD for accurate Sgold minting.
+  - **VRF (Verifiable Random Function):** Ensures fair and tamper-proof lottery draws.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js & npm
+- Hardhat
+- An Ethereum node provider (e.g., Alchemy, Infura)
+- Chainlink testnet contracts access
+
+### Installation
+
+```bash
+git clone https://github.com/yourusername/sgold-protocol.git
+cd sgold-protocol
+npm install
 ```
 
-### Test
+### Deployment
 
-```shell
-$ forge test
+1. Configure your environment variables (see `.env.example`).
+2. Deploy the contract:
+
+```bash
+npx hardhat run scripts/deploy.js --network <network>
 ```
 
-### Format
+### Testing
 
-```shell
-$ forge fmt
-```
+- **Local tests:**
+  ```bash
+  npx hardhat test
+  ```
+- **Forked mainnet tests:**
+  ```bash
+  npx hardhat test --network hardhat
+  ```
 
-### Gas Snapshots
+---
 
-```shell
-$ forge snapshot
-```
+## Project Structure
 
-### Anvil
+- `contracts/` — Sgold smart contract
+- `scripts/` — Deployment and lottery scripts
+- `test/` — Unit and integration tests
 
-```shell
-$ anvil
-```
+---
 
-### Deploy
+## How It Works
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+1. **Minting Sgold:**
+   - User deposits Ether.
+   - 70% of the deposit (in USD value of gold) is minted as Sgold.
+   - 10% goes to the lottery pool.
 
-### Cast
+2. **Lottery:**
+   - When the participant threshold is reached, the admin triggers the draw.
+   - Chainlink VRF selects a random winner.
+   - Winner receives the Ether prize pool.
 
-```shell
-$ cast <subcommand>
-```
+3. **Redemption:**
+   - Users can burn Sgold to reclaim their Ether, based on the current gold price.
 
-### Help
+---
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+## Security
+
+- Uses Chainlink oracles for reliable price feeds and randomness.
+- Only the admin can trigger the lottery draw.
+- All funds are managed by the smart contract.
+
+---
+
+## License
+
+MIT
+
+---
+
+## Acknowledgements
+
+- [Chainlink](https://chain.link/) for decentralized oracles and VRF
+- [OpenZeppelin](https://openzeppelin.com/) for secure ERC20 implementation
+
+---
+
+**Happy minting and good luck in the lottery!**
