@@ -39,8 +39,7 @@
 
 ### Prerequisites
 
-- Node.js & npm
-- Hardhat
+- Foundry
 - An Ethereum node provider (e.g., Alchemy, Infura)
 - Chainlink testnet contracts access
 
@@ -49,7 +48,7 @@
 ```bash
 git clone https://github.com/yourusername/sgold-protocol.git
 cd sgold-protocol
-npm install
+forge install
 ```
 
 ### Deployment
@@ -58,18 +57,14 @@ npm install
 2. Deploy the contract:
 
 ```bash
-npx hardhat run scripts/deploy.js --network <network>
+
 ```
 
 ### Testing
 
 - **Local tests:**
   ```bash
-  npx hardhat test
-  ```
-- **Forked mainnet tests:**
-  ```bash
-  npx hardhat test --network hardhat
+  forge test
   ```
 
 ---
@@ -109,7 +104,7 @@ npx hardhat run scripts/deploy.js --network <network>
 
 ## License
 
-MIT
+AGPL-3.0
 
 ---
 
